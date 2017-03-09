@@ -66,6 +66,14 @@ public class HelloNamingServer{
 			NamingContext Hello4Ctx = Hello3Ctx.bind_new_context(nc);
 			System.out.println("Context 'Hello31' added to Hello3 context.");
 
+			nc[0] = new NameComponent("Hello2", "Context");
+			NamingContext Hello2Ctx = rootCtx.bind_new_context(nc);
+			System.out.println("Context 'Hello2' added to Name Space.");
+
+			nc[0] = new NameComponent("Object2", "Object");
+			Hello2Ctx.rebind(nc, Hello2Ctx);
+			System.out.println("Object 'Object2' added to Hello2 Context.");
+
                         // wait for invocations from clients
 			orb.run();
 
