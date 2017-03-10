@@ -11,46 +11,82 @@ public class HelloNamingServer{
 		try{
 			NameComponent nc[] = new NameComponent[1];
 
-	    	// create and initialize the ORB
-	   		ORB orb = ORB.init(args, null);
+			// creating and initializing the ORB
+			ORB orb = ORB.init(args, null);
 
 			HelloServant helloRef = new HelloServant();
 
 			//connecting the servant to the orb
 			orb.connect(helloRef);
-	   		System.out.println("Orb connected." + orb);
+			System.out.println("Orb connected." + orb);
 
-			//You need to locate the naming service. The naming serivce helps you locate other objects.
-			//The CORBA orb lets you locate certain services by name. The call
-			// String[] services = orb.list_initial_services();
-			// System.out.println ("Listing Services");
-			//lists the names of the standard services that the ORB can connect to. The Naming service
-			//has the standard name NameService. To obtain an object reference to the service you use
-			//resolve_initial_reference. It returns a generic CORBA object. Note you have to use
-			//org.omg.CORBA.Object otherwise the compiler assumes that you mean java.lang.Object
 			org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-	   		System.out.println("Found NameService.");
+			System.out.println("Found NameService.");
 
-			//Next you need to convert this reference into a NamingContext reference
-			//so that you can invoke the methods of the NamingContext interface.
-			//This is achieved by using the narrow function of the helper class
+			//converting reference into a NamingContext reference
 			NamingContext rootCtx = NamingContextHelper.narrow(objRef);
 
-			//Now that we have the naming context we can use it to place a server object
-			//Names are nested sequences of name components. You can use the nesting levels
-			//to organize hierarchies of names much like you use directories in a file system.
-			//A Name Component consists of an ID and a kind. The ID is a name for the component
-			//that is unique among all names with the same parent component. The kind is some indication
-			//of the type of the component. Use
-			//-"Context" for name components that have nested names; and
-			//-"Object" for object names
+			//Context1
+			nc[0] = new NameComponent("Context1", "Context");
+			NamingContext Context1Ctx = rootCtx.bind_new_context(nc);
+			System.out.println("Context 'Context1' added to Name Space.");
+
+			//Sub-Context 2
+			nc[0] = new NameComponent("Sub-Context2", "Context");
+			NamingContext SubContext2Ctx = Context1Ctx.bind_new_context(nc);
+			System.out.println("Context 'Sub-Context2' added to Context1 context.");
+
+			//Object 1
+			nc[0] = new NameComponent("Object1", "Object");
+			Context1Ctx.rebind(nc, helloRef);
+			System.out.println("Object 'Object1' added to Context1.");
+
+
+			//Context 2
+			nc[0] = new NameComponent("Context2", "Context");
+			NamingContext Context2Ctx = rootCtx.bind_new_context(nc);
+			System.out.println("Context 'Context2' added to Name Space.");
+
+			//Object 2
+			nc[0] = new NameComponent("Object2", "Object");
+			Context2Ctx.rebind(nc, helloRef);
+			System.out.println("Object 'Object2' added to Context2.");
+
+			//Sub-Context 1
+			nc[0] = new NameComponent("Sub-Context1", "Context");
+			NamingContext SubContext1Ctx = Context2Ctx.bind_new_context(nc);
+			System.out.println("Context 'Sub-Context1' added to Context2 context.");
+
+			//Object 3
+			nc[0] = new NameComponent("Object3", "Object");
+			SubContext1Ctx.rebind(nc, SubContext1Ctx);
+			System.out.println("Object 'Object3' added to Sub-Context1");
+
+			//Object 4
+			nc[0] = new NameComponent("Object4", "Object");
+			Context2Ctx.rebind(nc, helloRef);
+			System.out.println("Object 'Object3' added to Context2.");
+
+
+
+			//Context 3
+			nc[0] = new NameComponent("Context3", "Context");
+			NamingContext Context3Ctx = rootCtx.bind_new_context(nc);
+			System.out.println("Context 'Context3' added to Name Space.");
+
+			//Object 5
+			nc[0] = new NameComponent("Object5", "Object");
+			Context3Ctx.rebind(nc, helloRef);
+			System.out.println("Object 'Object5' added to Context3.");
+
+
+
+			/**
 			nc[0] = new NameComponent("Hello", "Context");
 			NamingContext HelloCtx = rootCtx.bind_new_context(nc);
 			System.out.println("Context 'Hello' added to Name Space.");
 
 			nc[0] = new NameComponent("World", "Object");
-			//NameComponent path[] = {nc};
-			//Binding the name to an object that is stored in the Naming Context
 			HelloCtx.rebind(nc, helloRef);
 			System.out.println("Object 'World' added to Hello Context.");
 
@@ -74,7 +110,11 @@ public class HelloNamingServer{
 			Hello2Ctx.rebind(nc, helloRef);
 			System.out.println("Object 'Object2' added to Hello2 Context.");
 
-                        // wait for invocations from clients
+
+			**/
+
+
+			// waiting for invocations from clients
 			orb.run();
 
 

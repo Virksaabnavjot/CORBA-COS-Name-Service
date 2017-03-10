@@ -32,7 +32,7 @@ public class HelloNamingClient
                         } while (bIterator.value.next_one(bh));
                     }
                 else
-                    System.out.println(indent + "Nothing more in this context.") ;
+                    System.out.println(indent + "Their is nothing more in this context.") ;
         }
         catch (Exception e) {
             System.out.println("An exception occurred. " + e) ;
