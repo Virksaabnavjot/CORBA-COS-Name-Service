@@ -1,8 +1,7 @@
-module HelloNaming
+module Test
 {
   interface Hello
-  { 
-    string sayHello();
+  {
+    string addNumbers();
   };
 };
-

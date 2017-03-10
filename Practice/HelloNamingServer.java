@@ -1,6 +1,6 @@
 import java.io.*;
 import org.omg.CORBA.*;
-import HelloNaming.*;
+import Test.*;
 import org.omg.CosNaming.* ;
 import org.omg.CosNaming.NamingContextPackage.*;
 import java.util.Properties;
