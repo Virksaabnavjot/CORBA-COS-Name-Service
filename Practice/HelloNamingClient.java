@@ -35,7 +35,7 @@ public class HelloNamingClient
                     System.out.println(indent + "Their is nothing more in this context.") ;
         }
         catch (Exception e) {
-            System.out.println("An exception occurred. " + e) ;
+            System.out.println("An unexpected exception occurred. " + e) ;
             e.printStackTrace();
         }
     }
@@ -63,7 +63,11 @@ public class HelloNamingClient
 
             // Call the list function to iterate through the Name Space
             list(rootCtx, "---->");
+            
             System.out.println("Printing Done");
+
+
+
 
             } catch (Exception e) {
                 System.out.println("ERROR : " + e) ;

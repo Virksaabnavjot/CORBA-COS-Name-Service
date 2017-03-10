@@ -2,6 +2,6 @@ module Test
 {
   interface Hello
   {
-    string addNumbers();
+    long addNumbers(in long a, in long b, in long c, in long d);
   };
 };
